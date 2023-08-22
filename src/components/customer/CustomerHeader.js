@@ -1,7 +1,7 @@
-import "./WelcomeHeader.css";
+import "./CustomerHeader.css";
 import { Link } from "react-router-dom";
 
-const WelcomeHeader = () => {
+const CustomerHeader = () => {
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark ">
@@ -11,10 +11,15 @@ const WelcomeHeader = () => {
           </a>
 
           <div className="collapse navbar-collapse" id="navbarNav">
-            <ul className="navbar-nav ms-auto">
-              <li className="nav-item active">
+            <ul className="navbar-nav ms-auto ">
+              <li className="nav-item active ">
+                <Link className="login-navigate" to="/customer-dashboard">
+                  Home
+                </Link>
+              </li>
+              <li className="nav-item active custom-margin">
                 <Link className="login-navigate" to="/login">
-                  Login
+                  Logout
                 </Link>
               </li>
             </ul>
@@ -25,4 +30,4 @@ const WelcomeHeader = () => {
   );
 };
 
-export default WelcomeHeader;
+export default CustomerHeader;

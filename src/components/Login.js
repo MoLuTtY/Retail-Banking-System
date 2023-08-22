@@ -1,8 +1,10 @@
 import "./Login.css";
+import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import login from "../components/images/login.jpeg";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -11,8 +13,10 @@ const Login = () => {
     e.preventDefault();
     if (username === "employee" && password === "employee") {
       console.log("Employee Login successful");
+      navigate("/employee-dashboard");
     } else if (username === "customer" && password === "customer") {
       console.log("customer Login successful");
+      navigate("/customer-dashboard");
     } else {
       setError("Invalid username or password");
     }
@@ -33,10 +37,10 @@ const Login = () => {
             <div className="col-md-8 col-lg-7 col-xl-6">
               <img className="img-fluid" src={login} alt="login" />
             </div>
-            <div className="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
-              <form>
+            <div className="login-box col-md-7 col-lg-5 col-xl-5 offset-xl-1">
+              <form className="login-form">
                 <div className="text-center">
-                  <h3 className="mb-5">Login</h3>
+                  <h3 className="mb-5 login-heading">Login</h3>
                 </div>
                 <div className="form-outline mb-4">
                   <input
