@@ -12,6 +12,9 @@ import Profile from "./components/customer/Profile";
 import Transactions from "./components/customer/Transactions";
 import Withdraw from "./components/customer/Withdraw";
 import Transfer from "./components/customer/Transfer";
+import CreateCustomer from "./components/employee/CreateCustomer";
+import CreateAccount from "./components/employee/CreateAccount";
+import ViewCustomer from "./components/employee/ViewCustomer";
 // const routeDefinitions = createRoutesFromElements(
 //   <Route>
 //     <Route path="/login" element={<Login />} />
@@ -65,6 +68,9 @@ const router = createBrowserRouter([
   { path: "/customer-transactions", element: <Transactions /> },
   { path: "/customer-withdraw", element: <Withdraw /> },
   { path: "/customer-transfer", element: <Transfer /> },
+  { path: "/create-customer", element: <CreateCustomer /> },
+  { path: "/create-account", element: <CreateAccount /> },
+  { path: "/view-customer", element: <ViewCustomer /> },
 ]);
 
 // const router = createBrowserRouter(routeDefinitions);
