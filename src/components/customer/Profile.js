@@ -23,35 +23,32 @@ const Profile = ({ profileData }) => {
           <tbody>
             {profileData.map((customer) => (
               <tr key={customer.customerId}>
-                <td>{customer.customerId}</td>
-                <td>{customer.name}</td>
-                <td>{customer.dob}</td>
-                <td>{customer.pan}</td>
-                <td>{customer.address}</td>
+                <td className="align-middle">{customer.customerId}</td>
+                <td className="align-middle">{customer.name}</td>
+                <td className="align-middle">{customer.dob}</td>
+                <td className="align-middle">{customer.pan}</td>
+                <td className="align-middle">{customer.address}</td>
                 <td>
-                  {customer.accounts.map((account) => (
-                    <table
-                      key={account.accountId}
-                      className="table table-bordered table-striped"
-                    >
-                      <thead>
-                        <tr>
-                          <th>Account ID</th>
-                          <th>Current Balance</th>
-                          <th>Account Type</th>
-                          <th>Owner Name</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
+                  <table className="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th>Account ID</th>
+                        <th>Current Balance</th>
+                        <th>Account Type</th>
+                        <th>Owner Name</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {customer.accounts.map((account) => (
+                        <tr key={account.accountId}>
                           <td>{account.accountId}</td>
                           <td>{account.currentBalance}</td>
                           <td>{account.accountType}</td>
                           <td>{account.ownerName}</td>
                         </tr>
-                      </tbody>
-                    </table>
-                  ))}
+                      ))}
+                    </tbody>
+                  </table>
                 </td>
               </tr>
             ))}

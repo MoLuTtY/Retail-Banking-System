@@ -18,6 +18,13 @@ const Transactions = () => {
                     <option>Current</option>
                     <option>Savings</option>
                   </select>
+                  {/* <div class="col-md-6">
+                    <label for="select-box">Select Box</label>
+                    <select class="form-control" id="select-box">
+                      <option value="option1">Current</option>
+                      <option value="option2">Savings</option>
+                    </select>
+                  </div> */}
                   <div class="input-group-append ">
                     <button class="btn btn-primary " type="button">
                       Submit

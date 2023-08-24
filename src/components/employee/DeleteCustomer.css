@@ -1,18 +1,19 @@
-.heading-withdraw {
+.heading-delete {
   margin-top: 65px;
   font-family: sans-serif;
-  /* color: rgb(76, 124, 197); */
+
   color: rgb(0, 0, 128);
 
-  margin-left: 120px;
+  margin-left: 80px;
   margin-bottom: 40px;
 }
 .button-space {
   margin-right: 20px;
 }
 
-.container-form-withdraw {
-  height: 420px;
+.form-delete {
+  height: 350px;
+
   margin-left: 100px;
   background-color: rgba(3, 98, 252, 0.275);
   border-radius: 0.5em;

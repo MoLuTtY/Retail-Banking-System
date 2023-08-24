@@ -15,6 +15,9 @@ import Transfer from "./components/customer/Transfer";
 import CreateCustomer from "./components/employee/CreateCustomer";
 import CreateAccount from "./components/employee/CreateAccount";
 import ViewCustomer from "./components/employee/ViewCustomer";
+import Deposit from "./components/employee/Deposit";
+import ServiceCharge from "./components/employee/ServiceCharge";
+import DeleteCustomer from "./components/employee/DeleteCustomer";
 // const routeDefinitions = createRoutesFromElements(
 //   <Route>
 //     <Route path="/login" element={<Login />} />
@@ -36,15 +39,48 @@ const customerProfile = [
         accountType: "Current",
         ownerName: "Amal",
       },
+      {
+        accountId: 124,
+        currentBalance: 16000,
+        accountType: "Savings",
+        ownerName: "Amal",
+      },
     ],
   },
   {
-    customerId: 1,
+    customerId: 2,
     name: "Amal Varma",
     dob: "3-4-1999",
     pan: "DGTRE2366P",
     address: "Abc house, Calicut, Kerala, 675453",
     accounts: [
+      {
+        accountId: 123,
+        currentBalance: 13000,
+        accountType: "Current",
+        ownerName: "Amal",
+      },
+      {
+        accountId: 124,
+        currentBalance: 16000,
+        accountType: "Savings",
+        ownerName: "Amal",
+      },
+    ],
+  },
+  {
+    customerId: 3,
+    name: "Amal Varma",
+    dob: "3-4-1999",
+    pan: "DGTRE2366P",
+    address: "Abc house, Calicut, Kerala, 675453",
+    accounts: [
+      {
+        accountId: 123,
+        currentBalance: 13000,
+        accountType: "Current",
+        ownerName: "Amal",
+      },
       {
         accountId: 124,
         currentBalance: 16000,
@@ -58,7 +94,7 @@ const customerProfile = [
 const router = createBrowserRouter([
   { path: "/", element: <Welcome /> },
   { path: "/login", element: <Login /> },
-  { path: "/logout", element: <Welcome /> },
+  { path: "/logout", element: <Login /> },
   { path: "/customer-dashboard", element: <CustomerDashboard /> },
   { path: "/employee-dashboard", element: <EmployeeDashboard /> },
   {
@@ -70,7 +106,14 @@ const router = createBrowserRouter([
   { path: "/customer-transfer", element: <Transfer /> },
   { path: "/create-customer", element: <CreateCustomer /> },
   { path: "/create-account", element: <CreateAccount /> },
-  { path: "/view-customer", element: <ViewCustomer /> },
+  {
+    path: "/view-customer",
+    element: <ViewCustomer profileData={customerProfile} />,
+  },
+
+  { path: "/deposit", element: <Deposit /> },
+  { path: "/service-charge", element: <ServiceCharge /> },
+  { path: "/delete-customer", element: <DeleteCustomer /> },
 ]);
 
 // const router = createBrowserRouter(routeDefinitions);
