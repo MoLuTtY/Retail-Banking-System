@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import deposit from "../images/deposit.jpg";
 import serviceCharge from "../images/serviceCharge.jpg";
 import deleteCustomer2 from "../images/deleteCustomer2.jpg";
+import noData from "../images/noData.jpg";
 import { useState } from "react";
 
 const ViewCustomer = ({ profileData }) => {
@@ -11,6 +12,7 @@ const ViewCustomer = ({ profileData }) => {
 
   const [enteredCustomerId, setCustomerId] = useState("");
   const [profile, setProfile] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
 
   const depositHandler = () => {
     navigate("/deposit");
@@ -26,7 +28,9 @@ const ViewCustomer = ({ profileData }) => {
     const filteredCustomer = profileData.filter(
       (customer) => customer.customerId === parseInt(enteredCustomerId)
     );
+
     setProfile(filteredCustomer);
+    setIsSearching(true);
   };
 
   return (
@@ -56,57 +60,89 @@ const ViewCustomer = ({ profileData }) => {
           </div>
         </div>
 
-        {profile.length > 0 && (
-          <div className="table-service-container">
-            <div class="container mt-3 ">
-              <table class="table table-bordered table-striped text-center">
-                <thead class="thead-dark">
-                  <tr>
-                    <th>Customer ID</th>
-                    <th>Name</th>
-                    <th>DOB</th>
-                    <th>PAN</th>
-                    <th>Address</th>
-                    <th>Accounts</th>
-                  </tr>
-                </thead>
+        <div className="table-service-container">
+          <div class="container mt-3 ">
+            <table class="table table-bordered table-striped text-center">
+              <thead class="thead-dark">
+                <tr>
+                  <th>Customer ID</th>
+                  <th>Name</th>
+                  <th>DOB</th>
+                  <th>PAN</th>
+                  <th>Address</th>
+                  <th>Accounts</th>
+                </tr>
+              </thead>
 
-                <tbody>
-                  {profile.map((customer) => (
-                    <tr key={customer.customerId}>
-                      <td className="align-middle">{customer.customerId}</td>
-                      <td className="align-middle">{customer.name}</td>
-                      <td className="align-middle">{customer.dob}</td>
-                      <td className="align-middle">{customer.pan}</td>
-                      <td className="align-middle">{customer.address}</td>
-                      <td>
-                        <table className="table table-bordered table-striped">
-                          <thead>
-                            <tr>
-                              <th>Account ID</th>
-                              <th>Current Balance</th>
-                              <th>Account Type</th>
-                              <th>Owner Name</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {customer.accounts.map((account) => (
-                              <tr key={account.accountId}>
-                                <td>{account.accountId}</td>
-                                <td>{account.currentBalance}</td>
-                                <td>{account.accountType}</td>
-                                <td>{account.ownerName}</td>
+              <tbody>
+                {isSearching
+                  ? profile.map((customer) => (
+                      <tr key={customer.customerId}>
+                        <td className="align-middle">{customer.customerId}</td>
+                        <td className="align-middle">{customer.name}</td>
+                        <td className="align-middle">{customer.dob}</td>
+                        <td className="align-middle">{customer.pan}</td>
+                        <td className="align-middle">{customer.address}</td>
+                        <td>
+                          <table className="table table-bordered table-striped">
+                            <thead>
+                              <tr>
+                                <th>Account ID</th>
+                                <th>Current Balance</th>
+                                <th>Account Type</th>
+                                <th>Owner Name</th>
                               </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                            </thead>
+                            <tbody>
+                              {customer.accounts.map((account) => (
+                                <tr key={account.accountId}>
+                                  <td>{account.accountId}</td>
+                                  <td>{account.currentBalance}</td>
+                                  <td>{account.accountType}</td>
+                                  <td>{account.ownerName}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    ))
+                  : profileData.map((customer) => (
+                      <tr key={customer.customerId}>
+                        <td className="align-middle">{customer.customerId}</td>
+                        <td className="align-middle">{customer.name}</td>
+                        <td className="align-middle">{customer.dob}</td>
+                        <td className="align-middle">{customer.pan}</td>
+                        <td className="align-middle">{customer.address}</td>
+                        <td>
+                          <table className="table table-bordered table-striped">
+                            <thead>
+                              <tr>
+                                <th>Account ID</th>
+                                <th>Current Balance</th>
+                                <th>Account Type</th>
+                                <th>Owner Name</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {customer.accounts.map((account) => (
+                                <tr key={account.accountId}>
+                                  <td>{account.accountId}</td>
+                                  <td>{account.currentBalance}</td>
+                                  <td>{account.accountType}</td>
+                                  <td>{account.ownerName}</td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </td>
+                      </tr>
+                    ))}
+              </tbody>
+            </table>
+          </div>
 
+          {profile.length > 0 && (
             <div class="container mt-0  ">
               <div class="row col-sm-12 ">
                 <div class="col-sm-3 customer-services-container">
@@ -156,8 +192,8 @@ const ViewCustomer = ({ profileData }) => {
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

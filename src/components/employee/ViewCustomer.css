@@ -19,3 +19,13 @@
 .img-position {
   margin-top: -60px;
 }
+
+.not-found {
+  font-family: sans-serif;
+  color: rgb(76, 124, 197);
+  font-size: 30px;
+}
+
+.nodata-img {
+  margin-left: 490px;
+}

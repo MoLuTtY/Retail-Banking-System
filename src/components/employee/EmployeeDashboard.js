@@ -35,7 +35,7 @@ const EmployeeDashboard = () => {
         </div>
       </nav>
 
-      <div className="container mt-5 text-center">
+      <div className="container text-center emp-dash-cont">
         <div className="row">
           <div className="col-sm-4">
             <div className="border custom-border border-3 text-white p-3">

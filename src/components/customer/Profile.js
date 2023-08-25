@@ -1,7 +1,30 @@
 import CustomerHeader from "./CustomerHeader";
 import "./Profile.css";
 import React from "react";
-const Profile = ({ profileData }) => {
+const Profile = () => {
+  const profile = [
+    {
+      customerId: 1,
+      name: "Amal Varma",
+      dob: "3-4-1999",
+      pan: "DGTRE2366P",
+      address: "Abc house, Calicut, Kerala, 675453",
+      accounts: [
+        {
+          accountId: 123,
+          currentBalance: 13000,
+          accountType: "Current",
+          ownerName: "Amal",
+        },
+        {
+          accountId: 124,
+          currentBalance: 16000,
+          accountType: "Savings",
+          ownerName: "Amal",
+        },
+      ],
+    },
+  ];
   return (
     <div>
       <CustomerHeader></CustomerHeader>
@@ -21,7 +44,7 @@ const Profile = ({ profileData }) => {
           </thead>
 
           <tbody>
-            {profileData.map((customer) => (
+            {profile.map((customer) => (
               <tr key={customer.customerId}>
                 <td className="align-middle">{customer.customerId}</td>
                 <td className="align-middle">{customer.name}</td>
