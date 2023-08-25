@@ -5,6 +5,7 @@ import login from "../components/images/login.jpeg";
 
 const Login = () => {
   const navigate = useNavigate();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -48,6 +49,7 @@ const Login = () => {
                     id="form1Example13"
                     className="form-control form-control-lg"
                     placeholder="Username"
+                    required
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                   />
@@ -62,6 +64,7 @@ const Login = () => {
                     id="form1Example23"
                     className="form-control form-control-lg"
                     placeholder="Password"
+                    required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />

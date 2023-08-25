@@ -3,6 +3,7 @@ import "./Transfer.css";
 import transfer2 from "../images/transfer2.jpg";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import SuccessAlert from "../SuccessAlert";
 
 const Transfer = () => {
   const navigate = useNavigate("");
@@ -10,6 +11,7 @@ const Transfer = () => {
   const [enteredFromAccount, setFromAccount] = useState("");
   const [enteredTargetAccount, setTargetAccount] = useState("");
   const [enteredAmount, setAmount] = useState("");
+  const [successAlert, setSuccessAlert] = useState(false);
 
   const fromAccountHandler = (event) => {
     setFromAccount(event.target.value);
@@ -30,6 +32,12 @@ const Transfer = () => {
     };
     console.log("Transfer successfull");
     console.log(transferData);
+
+    setSuccessAlert(true);
+  };
+
+  const closeAlert = () => {
+    setSuccessAlert(false);
     navigate("/customer-dashboard");
   };
 
@@ -95,6 +103,12 @@ const Transfer = () => {
                   <button type="submit" class="btn btn-primary button-space">
                     Transfer
                   </button>
+                  {successAlert && (
+                    <SuccessAlert
+                      message={"Transfer successful!"}
+                      onClose={closeAlert}
+                    />
+                  )}
                   <button
                     type="button"
                     class="btn btn-secondary"

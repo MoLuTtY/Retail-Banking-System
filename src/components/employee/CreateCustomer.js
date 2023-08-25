@@ -2,7 +2,8 @@ import "./CreateCustomer.css";
 import EmployeeHeader from "./EmployeeHeader";
 import createCustomer2 from "../images/createCustomer2.jpg";
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import SuccessAlert from "../SuccessAlert";
 
 const CreateCustomer = () => {
   const navigate = useNavigate("");
@@ -13,6 +14,7 @@ const CreateCustomer = () => {
   const [enteredDob, setDob] = useState("");
   const [enteredPan, setPan] = useState("");
   const [enteredAddress, setAddress] = useState("");
+  const [successAlert, setSuccessAlert] = useState(false);
 
   const customerIdChangeHandler = (event) => {
     setCustomerId(event.target.value);
@@ -45,6 +47,12 @@ const CreateCustomer = () => {
     };
     console.log("Customer created successfully");
     console.log(customerData);
+
+    setSuccessAlert(true);
+  };
+
+  const closeAlert = () => {
+    setSuccessAlert(false);
     navigate("/employee-dashboard");
   };
 
@@ -148,6 +156,12 @@ const CreateCustomer = () => {
                   <button type="submit" class="btn btn-primary form-grp mt-4">
                     Create
                   </button>
+                  {successAlert && (
+                    <SuccessAlert
+                      message={"Customer created successfully!"}
+                      onClose={closeAlert}
+                    />
+                  )}
                   <button
                     type="button"
                     class="btn btn-secondary btn2 form-grp mt-4"

@@ -8,6 +8,10 @@ import { useState } from "react";
 
 const ViewCustomer = ({ profileData }) => {
   const navigate = useNavigate();
+
+  const [enteredCustomerId, setCustomerId] = useState("");
+  const [profile, setProfile] = useState([]);
+
   const depositHandler = () => {
     navigate("/deposit");
   };
@@ -17,9 +21,6 @@ const ViewCustomer = ({ profileData }) => {
   const deleteCustomerHandler = () => {
     navigate("/delete-customer");
   };
-
-  const [enteredCustomerId, setCustomerId] = useState("");
-  const [profile, setProfile] = useState([]);
 
   const searchCustomerHandler = () => {
     const filteredCustomer = profileData.filter(
@@ -54,7 +55,7 @@ const ViewCustomer = ({ profileData }) => {
             </div>
           </div>
         </div>
-        {/*  */}
+
         {profile.length > 0 && (
           <div className="table-service-container">
             <div class="container mt-3 ">
@@ -105,7 +106,7 @@ const ViewCustomer = ({ profileData }) => {
                 </tbody>
               </table>
             </div>
-            {/*  */}
+
             <div class="container mt-0  ">
               <div class="row col-sm-12 ">
                 <div class="col-sm-3 customer-services-container">

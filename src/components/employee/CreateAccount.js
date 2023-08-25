@@ -3,6 +3,7 @@ import "./CreateAccount.css";
 import createAccount2 from "../images/createAccount2.jpg";
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
+import SuccessAlert from "../SuccessAlert";
 
 const CreateAccount = () => {
   const navigate = useNavigate("");
@@ -12,6 +13,7 @@ const CreateAccount = () => {
   const [enteredOpeningDate, setOpeningDate] = useState("");
   const [enteredAccountType, setAccountType] = useState("");
   const [enteredOwnerName, setOwnerName] = useState("");
+  const [successAlert, setSuccessAlert] = useState(false);
 
   const customerIdHandler = (event) => {
     setCustomerId(event.target.value);
@@ -40,6 +42,12 @@ const CreateAccount = () => {
     };
     console.log("Account created successfully");
     console.log(accountDate);
+
+    setSuccessAlert(true);
+  };
+
+  const closeAlert = () => {
+    setSuccessAlert(false);
     navigate("/employee-dashboard");
   };
 
@@ -131,6 +139,12 @@ const CreateAccount = () => {
                   <button type="submit" class="btn btn-primary form-grp mt-4 ">
                     Create
                   </button>
+                  {successAlert && (
+                    <SuccessAlert
+                      message={"Account created successfully!"}
+                      onClose={closeAlert}
+                    />
+                  )}
                   <button
                     type="button"
                     class="btn btn-secondary btn2 form-grp mt-4 "

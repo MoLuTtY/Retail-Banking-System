@@ -4,11 +4,13 @@ import ViewCustomerHeader from "./ViewCustomerHeader";
 import deleteCustomer from "../images/deleteCustomer.jpg";
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
+import SuccessAlert from "../SuccessAlert";
 
 const DeleteCustomer = () => {
   const navigate = useNavigate("");
 
   const [enteredAccountNo, setAccountNo] = useState("");
+  const [successAlert, setSuccessAlert] = useState(false);
 
   const accountNoHandler = (event) => {
     setAccountNo(event.target.value);
@@ -18,6 +20,12 @@ const DeleteCustomer = () => {
     e.preventDefault();
     console.log("Customer deleted successfully");
     console.log("AccountNo : ", enteredAccountNo);
+
+    setSuccessAlert(true);
+  };
+
+  const closeAlert = () => {
+    setSuccessAlert(false);
     navigate("/view-customer");
   };
 
@@ -56,6 +64,12 @@ const DeleteCustomer = () => {
                   >
                     Delete
                   </button>
+                  {successAlert && (
+                    <SuccessAlert
+                      message={"Customer deleted successfully!"}
+                      onClose={closeAlert}
+                    />
+                  )}
                   <button
                     type="button"
                     class="btn btn-secondary mt-3"

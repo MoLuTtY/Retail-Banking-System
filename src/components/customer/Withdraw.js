@@ -3,12 +3,14 @@ import "./Withdraw.css";
 import withdrawatm from "../images/withdrawatm.jpg";
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
+import SuccessAlert from "../SuccessAlert";
 
 const Withdraw = () => {
   const navigate = useNavigate("");
 
   const [enteredFromAccount, setFromAccount] = useState("");
   const [enteredAmount, setAmount] = useState("");
+  const [successAlert, setSuccessAlert] = useState(false);
 
   const fromAccountHandler = (event) => {
     setFromAccount(event.target.value);
@@ -25,6 +27,12 @@ const Withdraw = () => {
     };
     console.log("withdraw successfull");
     console.log(withdrawData);
+
+    setSuccessAlert(true);
+  };
+
+  const closeAlert = () => {
+    setSuccessAlert(false);
     navigate("/customer-dashboard");
   };
 
@@ -76,6 +84,12 @@ const Withdraw = () => {
                   <button type="submit" class="btn btn-primary button-space">
                     Withdraw
                   </button>
+                  {successAlert && (
+                    <SuccessAlert
+                      message={"Withdrawal successful!"}
+                      onClose={closeAlert}
+                    />
+                  )}
                   <button
                     type="button"
                     class="btn btn-secondary"

@@ -2,8 +2,27 @@ import EmployeeHeader from "./EmployeeHeader";
 import "./ServiceCharge.css";
 import ViewCustomerHeader from "./ViewCustomerHeader";
 import serviceCharge2 from "../images/serviceCharge2.jpg";
+import { useNavigate } from "react-router-dom";
+import SuccessAlert from "../SuccessAlert";
+import { useState } from "react";
 
 const ServiceCharge = () => {
+  const navigate = useNavigate("");
+
+  const [successAlert, setSuccessAlert] = useState(false);
+
+  const deductServiceChargeHandler = (e) => {
+    e.preventDefault();
+    console.log("Service charge deducted");
+
+    setSuccessAlert(true);
+  };
+
+  const closeAlert = () => {
+    setSuccessAlert(false);
+    navigate("/view-customer");
+  };
+
   return (
     <div>
       <ViewCustomerHeader></ViewCustomerHeader>
@@ -11,15 +30,30 @@ const ServiceCharge = () => {
         <div class="row">
           <div class="col-md-6">
             <div class="p-4">
-              <h2 className="mt-5 service-head mb-4">Service Charge</h2>
-              <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus
-                auctor cursus quam, in fringilla nisi laoreet eget.
+              <h2 className="mt-5 service-head mb-4">
+                Service Charge Deduction
+              </h2>
+              <p className="mt-5 deduct-quote">
+                Service charge will be deducted for not maintaining minimum
+                balance
               </p>
-              <p>
-                Morbi tristique ullamcorper est, eu ullamcorper nulla lacinia
-                ac. Nulla facilisi. Sed at sapien ac lorem auctor dictum.
-              </p>
+
+              <form>
+                <div>
+                  <button
+                    className="btn btn-primary text-center mt-3 "
+                    onClick={deductServiceChargeHandler}
+                  >
+                    Deduct service charge
+                  </button>
+                  {successAlert && (
+                    <SuccessAlert
+                      message="Service charge deducted successfully!"
+                      onClose={closeAlert}
+                    />
+                  )}
+                </div>
+              </form>
             </div>
           </div>
           <div class="col-md-6">

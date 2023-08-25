@@ -4,12 +4,14 @@ import ViewCustomerHeader from "./ViewCustomerHeader";
 import deposit2 from "../images/deposit2.jpg";
 import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
+import SuccessAlert from "../SuccessAlert";
 
 const Deposit = () => {
   const navigate = useNavigate("");
 
   const [enteredAccountNo, setAccountNo] = useState("");
   const [enteredAmount, setAmount] = useState("");
+  const [successAlert, setSuccessAlert] = useState(false);
 
   const accountNoHandler = (event) => {
     setAccountNo(event.target.value);
@@ -26,6 +28,12 @@ const Deposit = () => {
     };
     console.log("Deposit successful");
     console.log(depositData);
+
+    setSuccessAlert(true);
+  };
+
+  const closeAlert = () => {
+    setSuccessAlert(false);
     navigate("/view-customer");
   };
 
@@ -75,6 +83,12 @@ const Deposit = () => {
                   <button type="submit" class="btn btn-primary button-space">
                     Deposit
                   </button>
+                  {successAlert && (
+                    <SuccessAlert
+                      message={"Depositted Successfully!"}
+                      onClose={closeAlert}
+                    />
+                  )}
                   <button
                     type="button"
                     class="btn btn-secondary"
