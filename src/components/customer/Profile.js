@@ -40,6 +40,7 @@ const Profile = () => {
               <th>PAN</th>
               <th>Address</th>
               <th>Accounts</th>
+              {/* <th>Total Balance</th> */}
             </tr>
           </thead>
 
@@ -73,6 +74,12 @@ const Profile = () => {
                     </tbody>
                   </table>
                 </td>
+                {/* <td className="align-middle">
+                  {customer.accounts.reduce(
+                    (total, account) => total + account.currentBalance,
+                    0
+                  )}
+                </td> */}
               </tr>
             ))}
           </tbody>
