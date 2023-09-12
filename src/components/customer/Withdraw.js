@@ -5,12 +5,13 @@ import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import SuccessAlert from "../SuccessAlert";
 
-const Withdraw = () => {
+const Withdraw = ({ customerData }) => {
   const navigate = useNavigate("");
 
-  const [enteredFromAccount, setFromAccount] = useState("");
+  const [enteredFromAccount, setFromAccount] = useState("savings");
   const [enteredAmount, setAmount] = useState("");
   const [successAlert, setSuccessAlert] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const fromAccountHandler = (event) => {
     setFromAccount(event.target.value);
@@ -19,16 +20,45 @@ const Withdraw = () => {
     setAmount(event.target.value);
   };
 
+  console.log("custome data", customerData);
+
   const withdrawSubmitHandler = (e) => {
     e.preventDefault();
-    const withdrawData = {
-      fromAccount: enteredFromAccount,
-      amount: enteredAmount,
-    };
-    console.log("withdraw successfull");
-    console.log(withdrawData);
 
-    setSuccessAlert(true);
+    const isConfirmed = window.confirm("Are you sure you want to withdraw?");
+
+    if (isConfirmed) {
+      const selectedAccountType = enteredFromAccount;
+      const withdrawalAmount = enteredAmount;
+
+      const customer = customerData.find(
+        (c) => c.accountType === selectedAccountType
+      );
+
+      if (!customer) {
+        console.log("Account type not found");
+        return;
+      }
+
+      const currentBalance = customer.currentBalance;
+
+      if (withdrawalAmount > currentBalance) {
+        setErrorMessage("Withdrawal amount exceeds current balance");
+        return;
+      }
+
+      const withdrawData = {
+        fromAccount: enteredFromAccount,
+        amount: enteredAmount,
+      };
+
+      setErrorMessage("");
+
+      console.log("Withdraw successful");
+      console.log(withdrawData);
+
+      setSuccessAlert(true);
+    }
   };
 
   const closeAlert = () => {
@@ -37,8 +67,9 @@ const Withdraw = () => {
   };
 
   const withdrawCancelHandler = () => {
-    setFromAccount("");
+    setFromAccount("savings");
     setAmount("");
+    setErrorMessage("");
   };
   return (
     <div>
@@ -55,18 +86,21 @@ const Withdraw = () => {
               <form onSubmit={withdrawSubmitHandler}>
                 <div class=" form-group mb-4">
                   <label for="selectA">From Account</label>
-                  <select
-                    class="form-control"
-                    id="selectA"
-                    required
-                    value={enteredFromAccount}
-                    onChange={fromAccountHandler}
-                  >
-                    <option value="">select from account</option>
-                    <option value="current">Current</option>
-                    <option value="savings">Savings</option>
-                  </select>
+
+                  <div class="input-group">
+                    <select
+                      class="form-select"
+                      id="accountType"
+                      name="accountType"
+                      value={enteredFromAccount}
+                      onChange={fromAccountHandler}
+                    >
+                      <option value="savings">savings</option>
+                      <option value="current">current</option>
+                    </select>
+                  </div>
                 </div>
+                {errorMessage && <p className="text-danger">{errorMessage}</p>}
                 <div class="form-group mb-4">
                   <label for="inputB">Amount</label>
                   <input

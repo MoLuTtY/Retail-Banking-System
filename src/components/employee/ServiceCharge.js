@@ -2,24 +2,58 @@ import EmployeeHeader from "./EmployeeHeader";
 import "./ServiceCharge.css";
 import ViewCustomerHeader from "./ViewCustomerHeader";
 import serviceCharge2 from "../images/serviceCharge2.jpg";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import SuccessAlert from "../SuccessAlert";
 import { useState } from "react";
+import NoServiceChargeAlert from "../NoServiceChargeAlert";
 
-const ServiceCharge = () => {
+const ServiceCharge = ({ customerData }) => {
   const navigate = useNavigate("");
+  const location = useLocation();
+
+  const accountNo = location.state && location.state.accountNo;
+  const accountType = location.state && location.state.accountType;
+  console.log("from service charge");
+  console.log(customerData);
+  console.log(accountNo);
+  console.log(accountType);
 
   const [successAlert, setSuccessAlert] = useState(false);
-
+  const [noServiceChargeAlert, setNoServiceChargeAlert] = useState(false);
   const deductServiceChargeHandler = (e) => {
     e.preventDefault();
-    console.log("Service charge deducted");
 
-    setSuccessAlert(true);
+    const isConfirmed = window.confirm(
+      "Are you sure you want to deduct the service charge?"
+    );
+
+    if (isConfirmed) {
+      console.log("Searching for customer...");
+      const customer = customerData.find(
+        (customer) =>
+          customer.accountNo === accountNo &&
+          customer.accountType === accountType
+      );
+
+      if (customer) {
+        console.log("Customer found:", customer);
+        if (customer.currentBalance < 1000) {
+          console.log("Service charge deducted : Rs.100");
+          console.log("Account No", accountNo);
+          setSuccessAlert(true);
+        } else {
+          console.log("No service charge");
+          setNoServiceChargeAlert(true);
+        }
+      } else {
+        console.log("Customer not found with account number", accountNo);
+      }
+    }
   };
 
   const closeAlert = () => {
     setSuccessAlert(false);
+    setNoServiceChargeAlert(false);
     navigate("/view-customer");
   };
 
@@ -49,6 +83,12 @@ const ServiceCharge = () => {
                   {successAlert && (
                     <SuccessAlert
                       message="Service charge deducted successfully!"
+                      onClose={closeAlert}
+                    />
+                  )}
+                  {noServiceChargeAlert && (
+                    <NoServiceChargeAlert
+                      message="Great News! No Service Charge Deduction Required "
                       onClose={closeAlert}
                     />
                   )}

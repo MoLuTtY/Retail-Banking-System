@@ -5,13 +5,15 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SuccessAlert from "../SuccessAlert";
 
-const Transfer = () => {
+const Transfer = ({ transactionData, customerData }) => {
   const navigate = useNavigate("");
 
-  const [enteredFromAccount, setFromAccount] = useState("");
+  const [enteredFromAccount, setFromAccount] = useState("savings");
   const [enteredTargetAccount, setTargetAccount] = useState("");
   const [enteredAmount, setAmount] = useState("");
   const [successAlert, setSuccessAlert] = useState(false);
+  const [fromAccountError, setFromAccountError] = useState("");
+  const [amountError, setAmountError] = useState("");
 
   const fromAccountHandler = (event) => {
     setFromAccount(event.target.value);
@@ -25,15 +27,52 @@ const Transfer = () => {
 
   const transferSubmitHandler = (e) => {
     e.preventDefault();
-    const transferData = {
-      fromAccount: enteredFromAccount,
-      targetAccount: enteredTargetAccount,
-      amount: enteredAmount,
-    };
-    console.log("Transfer successfull");
-    console.log(transferData);
 
-    setSuccessAlert(true);
+    const isConfirmed = window.confirm("Are you sure you want to transfer?");
+
+    if (isConfirmed) {
+      const transferData = {
+        fromAccount: enteredFromAccount,
+        targetAccount: enteredTargetAccount,
+        amount: enteredAmount,
+      };
+
+      const selectedFromAccountType = enteredFromAccount;
+      const selectedTargetAccount = parseInt(enteredTargetAccount);
+      const transferAmount = parseFloat(enteredAmount);
+
+      const targetAccountExists = transactionData.some(
+        (transaction) => transaction.targetAccountId === selectedTargetAccount
+      );
+
+      const fromCustomer = customerData.find(
+        (c) => c.accountType === selectedFromAccountType
+      );
+
+      setFromAccountError("");
+      setAmountError("");
+
+      if (!fromCustomer) {
+        setFromAccountError("From account type not found");
+      }
+
+      if (!targetAccountExists) {
+        setFromAccountError("Target account does not exist.");
+      }
+
+      if (transferAmount > fromCustomer.currentBalance) {
+        setAmountError("Transfer amount exceeds current balance");
+      }
+
+      if (
+        targetAccountExists &&
+        transferAmount <= fromCustomer.currentBalance
+      ) {
+        console.log("Transfer successful");
+        console.log(transferData);
+        setSuccessAlert(true);
+      }
+    }
   };
 
   const closeAlert = () => {
@@ -42,9 +81,11 @@ const Transfer = () => {
   };
 
   const transferCancelHandler = () => {
-    setFromAccount("");
+    setFromAccount("savings");
     setTargetAccount("");
     setAmount("");
+    setFromAccountError("");
+    setAmountError("");
   };
 
   return (
@@ -62,18 +103,24 @@ const Transfer = () => {
               <form onSubmit={transferSubmitHandler}>
                 <div class=" form-group mb-4">
                   <label for="selectA">From Account</label>
-                  <select
-                    class="form-control"
-                    id="selectA"
-                    required
-                    value={enteredFromAccount}
-                    onChange={fromAccountHandler}
-                  >
-                    <option value="">select from account</option>
-                    <option value="current">Current</option>
-                    <option value="savings">Savings</option>
-                  </select>
+
+                  <div class="input-group">
+                    <select
+                      class="form-select"
+                      id="accountType"
+                      name="accountType"
+                      value={enteredFromAccount}
+                      onChange={fromAccountHandler}
+                    >
+                      <option value="savings">savings</option>
+                      <option value="current">current</option>
+                    </select>
+                  </div>
                 </div>
+
+                {fromAccountError && (
+                  <p className="text-danger">{fromAccountError}</p>
+                )}
                 <div class="form-group mb-4">
                   <label for="inputB">Target Account</label>
                   <input
@@ -86,6 +133,7 @@ const Transfer = () => {
                     onChange={targetAccountHandler}
                   />
                 </div>
+                {amountError && <p className="text-danger">{amountError}</p>}
                 <div class="form-group mb-4">
                   <label for="inputB">Amount</label>
                   <input
@@ -98,7 +146,6 @@ const Transfer = () => {
                     onChange={amountHandler}
                   />
                 </div>
-
                 <div class="form-group ">
                   <button type="submit" class="btn btn-primary button-space">
                     Transfer

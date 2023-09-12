@@ -54,63 +54,6 @@ const CustomerDashboard = () => {
         </div>
       </div>
 
-      {/* <div class="box-container">
-        <div className="row">
-          <div className="col-md-3">
-            <div className="each-box p-3 d-flex flex-column p-3 custom-bg-color">
-              <img className="img-fluid" src={profile2} alt="profile" />
-              <button
-                className="btn btn-primary w-100 mt-auto"
-                onClick={navigateToProfile}
-              >
-                Profile
-              </button>
-            </div>
-          </div>
-
-          <div class="col-md-3">
-            <div class="each-box p-3 d-flex flex-column p-3 custom-bg-color">
-              <img
-                className="img-fluid"
-                src={transactions}
-                alt="transactions"
-              />
-              <button
-                className="btn btn-primary w-100 mt-auto"
-                onClick={navigateToTransactions}
-              >
-                Transactions
-              </button>
-            </div>
-          </div>
-
-          <div class="col-md-3">
-            <div class="each-box p-3 d-flex flex-column p-3 custom-bg-color">
-              <img className="img-fluid" src={withdraw} alt="withdraw" />
-              <button
-                className="btn btn-primary w-100 mt-auto"
-                onClick={navigateToWithdraw}
-              >
-                Withdraw
-              </button>
-            </div>
-          </div>
-
-          <div class="col-md-3">
-            <div class="each-box p-3 d-flex flex-column p-3 custom-bg-color">
-              <img className="img-fluid" src={transfer} alt="transfer" />
-              <button
-                className="btn btn-primary w-100 mt-auto"
-                onClick={navigateToTransfer}
-              >
-                Transfer
-              </button>
-            </div>
-          </div>
-        </div>
-      </div> */}
-
-      {/*  */}
       <div class="box-container">
         <div className="row">
           <div className="col-md-3">

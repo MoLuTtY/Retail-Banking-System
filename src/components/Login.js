@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import React, { useState } from "react";
 import login from "../components/images/login.jpeg";
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
@@ -16,6 +16,62 @@ const Login = () => {
       console.log("Employee Login successful");
       navigate("/employee-dashboard");
     } else if (username === "customer" && password === "customer") {
+      const customerData = [
+        {
+          accountNo: 1236603040001,
+          name: "Amal Varma",
+          dob: "3-4-1999",
+          pan: "DGTRE2366P",
+          address: "Abc house, Calicut, Kerala, 675453",
+          accountType: "savings",
+          currentBalance: 100,
+        },
+        {
+          accountNo: 1236603040001,
+          name: "Amal Varma",
+          dob: "3-4-1999",
+          pan: "DGTRE2366P",
+          address: "Abc house, Calicut, Kerala, 675453",
+          accountType: "current",
+          currentBalance: 10000,
+        },
+      ];
+
+      const transactionData = [
+        {
+          sourceAccountId: 1236603040001,
+          sourceAccountType: "savings",
+          targetAccountId: 1675504120002,
+          amount: 100000,
+          initiationDate: "2022-08-22",
+        },
+        {
+          sourceAccountId: 236603040001,
+          sourceAccountType: "savings",
+          targetAccountId: 1358803100003,
+          amount: 200000,
+          initiationDate: "2023-06-12",
+        },
+        {
+          sourceAccountId: 236603040001,
+          sourceAccountType: "current",
+          targetAccountId: 1675504120002,
+          amount: 100000,
+          initiationDate: "2022-07-22",
+        },
+        {
+          sourceAccountId: 236603040001,
+          sourceAccountType: "current",
+          targetAccountId: 1358803100003,
+          amount: 200000,
+          initiationDate: "2023-04-12",
+        },
+      ];
+
+      console.log("from login : ", customerData);
+      console.log("from login : ", transactionData);
+
+      onLogin(customerData, transactionData);
       console.log("customer Login successful");
       navigate("/customer-dashboard");
     } else {

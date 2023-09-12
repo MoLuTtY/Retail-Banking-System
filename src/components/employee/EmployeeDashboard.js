@@ -52,7 +52,7 @@ const EmployeeDashboard = () => {
               </button>
             </div>
           </div>
-          <div className="col-sm-4">
+          {/* <div className="col-sm-4">
             <div className="border custom-border border-3 text-white p-3">
               <img
                 className="img-fluid"
@@ -66,7 +66,7 @@ const EmployeeDashboard = () => {
                 Create Account
               </button>
             </div>
-          </div>
+          </div> */}
           <div className="col-sm-4">
             <div className="border custom-border border-3 text-white p-3">
               <img

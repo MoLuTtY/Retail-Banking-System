@@ -1,49 +1,26 @@
 import CustomerHeader from "./CustomerHeader";
 import "./Transactions.css";
 import transactions2 from "../images/transactions2.jpg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const Transactions = () => {
-  const transactionData = [
-    {
-      sourceAccountId: 1,
-      sourceOwner: "Neelu",
-      targetAccountId: 10,
-      amount: 100000,
-      initiationDate: "22-08-2022",
-    },
-    {
-      sourceAccountId: 2,
-      sourceOwner: "Neelu",
-      targetAccountId: 10,
-      amount: 100000,
-      initiationDate: "22-08-2022",
-    },
-    {
-      sourceAccountId: 1,
-      sourceOwner: "Neelu",
-      targetAccountId: 17,
-      amount: 200000,
-      initiationDate: "12-06-2023",
-    },
-    {
-      sourceAccountId: 2,
-      sourceOwner: "Neelu",
-      targetAccountId: 17,
-      amount: 200000,
-      initiationDate: "12-06-2023",
-    },
-  ];
-
-  const [enteredAccountNo, setAccountNo] = useState("");
+const Transactions = ({ transactionData, customerData }) => {
   const [enteredFromDate, setFromDate] = useState("");
   const [enteredToDate, setToDate] = useState("");
   const [filteredTransactions, setFilteredTransactions] = useState([]);
   const [showTableHead, setShowTableHead] = useState(false);
+  const [searchPerformed, setSearchPerformed] = useState(false);
 
-  const accountNoHandler = (event) => {
-    setAccountNo(event.target.value);
-  };
+  useEffect(() => {
+    setSearchPerformed(true);
+
+    const sortedTransactions = transactionData
+      .slice()
+      .sort((a, b) => new Date(b.initiationDate) - new Date(a.initiationDate));
+
+    setFilteredTransactions(sortedTransactions);
+    setShowTableHead(true);
+  }, []);
+
   const dateFromHandler = (event) => {
     setFromDate(event.target.value);
   };
@@ -53,43 +30,44 @@ const Transactions = () => {
 
   const viewTransactionsHandler = (e) => {
     e.preventDefault();
-
-    const enteredTrabsactionData = {
-      accountNo: enteredAccountNo,
-      fromDate: enteredFromDate,
-      toDate: enteredToDate,
-    };
-    console.log(enteredTrabsactionData);
+    const fromDate = new Date(enteredFromDate);
+    const toDate = new Date(enteredToDate);
 
     const filtered = transactionData.filter((transaction) => {
-      if (!enteredAccountNo && (!enteredFromDate || !enteredToDate)) {
-        return true;
-      }
-
-      const matchesAccountNo =
-        !enteredAccountNo ||
-        transaction.sourceAccountId.toString() === enteredAccountNo;
-      const transactionDate = new Date(
-        transaction.initiationDate.split("-").reverse().join("-")
-      );
-      const fromDate = enteredFromDate ? new Date(enteredFromDate) : null;
-      const toDate = enteredToDate ? new Date(enteredToDate) : null;
-
-      const withinDateRange =
-        (!fromDate || transactionDate >= fromDate) &&
-        (!toDate || transactionDate <= toDate);
-
-      return matchesAccountNo && withinDateRange;
+      const transactionDate = new Date(transaction.initiationDate);
+      return transactionDate >= fromDate && transactionDate <= toDate;
     });
 
-    setFilteredTransactions(filtered);
+    const sortedFiltered = filtered
+      .slice()
+      .sort((a, b) => new Date(b.initiationDate) - new Date(a.initiationDate));
+
     setShowTableHead(true);
+    setFilteredTransactions(sortedFiltered);
+    setSearchPerformed(true);
   };
 
   const containerStyle = {
     marginLeft: "60px",
     maxWidth: "910px",
   };
+
+  const styles = {
+    container: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      marginTop: "90px",
+    },
+    content: {
+      textAlign: "center",
+    },
+    text: {
+      fontSize: "44px",
+      color: "rgb(76, 124, 197)",
+    },
+  };
+
   return (
     <div>
       <CustomerHeader></CustomerHeader>
@@ -107,11 +85,12 @@ const Transactions = () => {
                   <label>Account No</label>
                   <input
                     type="text"
-                    class="form-control"
+                    class="form-control "
                     required
                     placeholder="Account Number"
-                    value={enteredAccountNo}
-                    onChange={accountNoHandler}
+                    value={customerData[0].accountNo}
+                    disabled
+                    style={{ color: "#999" }}
                   />
                 </div>
                 <div class="col-md-3">
@@ -119,6 +98,7 @@ const Transactions = () => {
                   <input
                     type="date"
                     class="form-control"
+                    required
                     onChange={dateFromHandler}
                   />
                 </div>
@@ -127,6 +107,7 @@ const Transactions = () => {
                   <input
                     type="date"
                     class="form-control"
+                    required
                     onChange={dateToHandler}
                   />
                 </div>
@@ -137,30 +118,31 @@ const Transactions = () => {
             </div>
 
             <div className="table-responsive table-container mt-5">
-              {showTableHead && (
-                <table className="table table-bordered text-center table-striped">
+              <table className="table table-bordered text-center table-striped">
+                {showTableHead && filteredTransactions.length > 0 && (
                   <thead>
                     <tr>
-                      <th>Source Account ID</th>
-                      <th>Source Owner</th>
+                      <th>Source Account Type</th>
                       <th>Target Account ID</th>
                       <th>Amount</th>
                       <th>Initiation Date</th>
                     </tr>
                   </thead>
+                )}
+
+                {filteredTransactions.length > 0 && (
                   <tbody>
                     {filteredTransactions.map((transaction, index) => (
                       <tr key={index}>
-                        <td>{transaction.sourceAccountId}</td>
-                        <td>{transaction.sourceOwner}</td>
+                        <td>{transaction.sourceAccountType}</td>
                         <td>{transaction.targetAccountId}</td>
-                        <td>{transaction.amount}</td>
+                        <td>&#x20B9;{transaction.amount}</td>
                         <td>{transaction.initiationDate}</td>
                       </tr>
                     ))}
                   </tbody>
-                </table>
-              )}{" "}
+                )}
+              </table>
             </div>
           </div>
 

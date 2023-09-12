@@ -2,34 +2,39 @@ import EmployeeHeader from "./EmployeeHeader";
 import "./Deposit.css";
 import ViewCustomerHeader from "./ViewCustomerHeader";
 import deposit2 from "../images/deposit2.jpg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import SuccessAlert from "../SuccessAlert";
+import { useLocation } from "react-router-dom";
 
 const Deposit = () => {
   const navigate = useNavigate("");
+  const location = useLocation();
 
-  const [enteredAccountNo, setAccountNo] = useState("");
+  const accountNo = location.state && location.state.accountNo;
+
   const [enteredAmount, setAmount] = useState("");
   const [successAlert, setSuccessAlert] = useState(false);
 
-  const accountNoHandler = (event) => {
-    setAccountNo(event.target.value);
-  };
   const amountHandler = (event) => {
     setAmount(event.target.value);
   };
 
   const depositSubmitHandler = (e) => {
     e.preventDefault();
-    const depositData = {
-      accountNo: enteredAccountNo,
-      amount: enteredAmount,
-    };
-    console.log("Deposit successful");
-    console.log(depositData);
+    const isConfirmed = window.confirm(
+      "Are you sure you want to deposit to this account?"
+    );
 
-    setSuccessAlert(true);
+    if (isConfirmed) {
+      const depositData = {
+        amount: enteredAmount,
+      };
+      console.log("Deposit successful");
+      console.log(depositData);
+      console.log("Account No", accountNo);
+      setSuccessAlert(true);
+    }
   };
 
   const closeAlert = () => {
@@ -38,7 +43,6 @@ const Deposit = () => {
   };
 
   const depositCancelHandler = () => {
-    setAccountNo("");
     setAmount("");
   };
   return (
@@ -55,15 +59,14 @@ const Deposit = () => {
               <h2 className="heading-deposit">Deposit</h2>
               <form onSubmit={depositSubmitHandler}>
                 <div class="form-group mb-4">
-                  <label for="inputB">Account No</label>
+                  <label for="inputAccountNo">Account No</label>
                   <input
-                    type="number"
+                    type="text"
                     class="form-control"
-                    id="inputB"
-                    required
-                    placeholder="Enter account no"
-                    value={enteredAccountNo}
-                    onChange={accountNoHandler}
+                    id="inputAccountNo"
+                    value={accountNo}
+                    disabled
+                    style={{ color: "#999" }}
                   />
                 </div>
                 <div class="form-group mb-4">

@@ -3,25 +3,28 @@ import "./DeleteCustomer.css";
 import ViewCustomerHeader from "./ViewCustomerHeader";
 import deleteCustomer from "../images/deleteCustomer.jpg";
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, useLocation } from "react-router-dom";
 import SuccessAlert from "../SuccessAlert";
 
 const DeleteCustomer = () => {
   const navigate = useNavigate("");
 
-  const [enteredAccountNo, setAccountNo] = useState("");
-  const [successAlert, setSuccessAlert] = useState(false);
+  const location = useLocation();
 
-  const accountNoHandler = (event) => {
-    setAccountNo(event.target.value);
-  };
+  const accountNo = location.state && location.state.accountNo;
+  const [successAlert, setSuccessAlert] = useState(false);
 
   const deleteCustomerSubmitHandler = (e) => {
     e.preventDefault();
-    console.log("Customer deleted successfully");
-    console.log("AccountNo : ", enteredAccountNo);
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this customer?"
+    );
 
-    setSuccessAlert(true);
+    if (isConfirmed) {
+      console.log("Customer deleted successfully");
+      console.log("Account No", accountNo);
+      setSuccessAlert(true);
+    }
   };
 
   const closeAlert = () => {
@@ -29,9 +32,6 @@ const DeleteCustomer = () => {
     navigate("/view-customer");
   };
 
-  const customerDeleteCancelHandler = () => {
-    setAccountNo("");
-  };
   return (
     <div>
       <ViewCustomerHeader></ViewCustomerHeader>
@@ -52,8 +52,9 @@ const DeleteCustomer = () => {
                     id="inputB"
                     required
                     placeholder="Enter account no"
-                    value={enteredAccountNo}
-                    onChange={accountNoHandler}
+                    value={accountNo}
+                    disabled
+                    style={{ color: "#999" }}
                   />
                 </div>
 
@@ -70,13 +71,6 @@ const DeleteCustomer = () => {
                       onClose={closeAlert}
                     />
                   )}
-                  <button
-                    type="button"
-                    class="btn btn-secondary mt-3"
-                    onClick={customerDeleteCancelHandler}
-                  >
-                    Cancel
-                  </button>
                 </div>
               </form>
             </div>

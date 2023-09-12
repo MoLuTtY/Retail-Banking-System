@@ -1,12 +1,7 @@
 import Login from "./components/Login";
 import Welcome from "./components/Welcome";
 import CustomerDashboard from "./components/customer/CustomerDashboard";
-import {
-  createBrowserRouter,
-  // createRoutesFromElements,
-  RouterProvider,
-  // Route,
-} from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import EmployeeDashboard from "./components/employee/EmployeeDashboard";
 import Profile from "./components/customer/Profile";
 import Transactions from "./components/customer/Transactions";
@@ -18,109 +13,79 @@ import ViewCustomer from "./components/employee/ViewCustomer";
 import Deposit from "./components/employee/Deposit";
 import ServiceCharge from "./components/employee/ServiceCharge";
 import DeleteCustomer from "./components/employee/DeleteCustomer";
-// const routeDefinitions = createRoutesFromElements(
-//   <Route>
-//     <Route path="/login" element={<Login />} />
-//     <Route path="/welcome" element={<Welcome />} />
-//   </Route>
-// );
-
-const customerProfile = [
-  {
-    customerId: 1,
-    name: "Amal Varma",
-    dob: "3-4-1999",
-    pan: "DGTRE2366P",
-    address: "Abc house, Calicut, Kerala, 675453",
-    accounts: [
-      {
-        accountId: 123,
-        currentBalance: 13000,
-        accountType: "Current",
-        ownerName: "Amal",
-      },
-      {
-        accountId: 124,
-        currentBalance: 16000,
-        accountType: "Savings",
-        ownerName: "Amal",
-      },
-    ],
-  },
-  {
-    customerId: 2,
-    name: "Amal Varma",
-    dob: "3-4-1999",
-    pan: "DGTRE2366P",
-    address: "Abc house, Calicut, Kerala, 675453",
-    accounts: [
-      {
-        accountId: 123,
-        currentBalance: 13000,
-        accountType: "Current",
-        ownerName: "Amal",
-      },
-      {
-        accountId: 124,
-        currentBalance: 16000,
-        accountType: "Savings",
-        ownerName: "Amal",
-      },
-    ],
-  },
-  {
-    customerId: 3,
-    name: "Amal Varma",
-    dob: "3-4-1999",
-    pan: "DGTRE2366P",
-    address: "Abc house, Calicut, Kerala, 675453",
-    accounts: [
-      {
-        accountId: 123,
-        currentBalance: 13000,
-        accountType: "Current",
-        ownerName: "Amal",
-      },
-      {
-        accountId: 124,
-        currentBalance: 16000,
-        accountType: "Savings",
-        ownerName: "Amal",
-      },
-    ],
-  },
-];
-
-const router = createBrowserRouter([
-  { path: "/", element: <Welcome /> },
-  { path: "/login", element: <Login /> },
-  { path: "/logout", element: <Login /> },
-  { path: "/customer-dashboard", element: <CustomerDashboard /> },
-  { path: "/employee-dashboard", element: <EmployeeDashboard /> },
-  {
-    path: "/customer-profile",
-    element: <Profile profileData={customerProfile} />,
-  },
-  { path: "/customer-transactions", element: <Transactions /> },
-  { path: "/customer-withdraw", element: <Withdraw /> },
-  { path: "/customer-transfer", element: <Transfer /> },
-  { path: "/create-customer", element: <CreateCustomer /> },
-  { path: "/create-account", element: <CreateAccount /> },
-  {
-    path: "/view-customer",
-    element: <ViewCustomer profileData={customerProfile} />,
-  },
-
-  { path: "/deposit", element: <Deposit /> },
-  { path: "/service-charge", element: <ServiceCharge /> },
-  { path: "/delete-customer", element: <DeleteCustomer /> },
-]);
-
-// const router = createBrowserRouter(routeDefinitions);
+import Error from "./components/Error";
+import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Navigate,
+  Link,
+} from "react-router-dom";
 
 function App() {
-  return <RouterProvider router={router} />;
-  // return <Welcome></Welcome>;
+  const [customerData, setCustomerData] = useState([]);
+  const [transactionData, setTransactionData] = useState([]);
+
+  const onLogin = (customerData, transactionData) => {
+    setCustomerData(customerData);
+    setTransactionData(transactionData);
+  };
+  console.log("set customer data :", customerData);
+  console.log("set transaction data :", transactionData);
+
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Welcome />} />
+        <Route path="/login" element={<Login onLogin={onLogin} />} />
+        <Route path="/customer-dashboard" element={<CustomerDashboard />} />
+        <Route
+          path="/customer-profile"
+          element={<Profile customerData={customerData} />}
+        />
+        <Route
+          path="/customer-transactions"
+          element={
+            <Transactions
+              transactionData={transactionData}
+              customerData={customerData}
+            />
+          }
+        />
+        <Route
+          path="/customer-withdraw"
+          element={<Withdraw customerData={customerData} />}
+        />
+        <Route
+          path="/customer-transfer"
+          element={
+            <Transfer
+              transactionData={transactionData}
+              customerData={customerData}
+            />
+          }
+        />
+        <Route path="/employee-dashboard" element={<EmployeeDashboard />} />
+        <Route path="/create-customer" element={<CreateCustomer />} />
+        <Route
+          path="/view-customer"
+          element={<ViewCustomer customerData={customerData} />}
+        />
+
+        <Route path="/deposit" element={<Deposit />} />
+        <Route
+          path="/service-charge"
+          element={<ServiceCharge customerData={customerData} />}
+        />
+        <Route path="/delete-customer" element={<DeleteCustomer />} />
+
+        <Route path="/logout" element={<Login onLogin={onLogin} />} />
+        <Route path="*" element={<Error />} />
+      </Routes>
+    </Router>
+  );
 }
 
 export default App;
